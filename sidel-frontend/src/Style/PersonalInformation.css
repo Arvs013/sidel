@@ -228,7 +228,6 @@
   box-shadow: 0 6px 20px rgba(8, 112, 118, 0.4);
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
   .personal-info-container {
     padding: 1rem;

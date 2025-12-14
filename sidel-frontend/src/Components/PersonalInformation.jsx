@@ -58,23 +58,19 @@ const PersonalInformation = () => {
   const handleUpdateProfile = (e) => {
     e.preventDefault();
     
-    // Validate inputs
     if (!formData.name || !formData.email || !formData.phoneNumber) {
       setMessage({ type: 'error', text: 'Please fill in all required fields' });
       return;
     }
 
-    // Get all users
     const users = JSON.parse(localStorage.getItem('users')) || [];
     
-    // Check if email already exists for another user
     const emailExists = users.some(u => u.email === formData.email && u.userId !== loggedUser.userId);
     if (emailExists) {
       setMessage({ type: 'error', text: 'Email already exists' });
       return;
     }
 
-    // Update user in users array
     const updatedUsers = users.map(user => 
       user.userId === loggedUser.userId 
         ? { ...user, ...formData }
@@ -82,12 +78,10 @@ const PersonalInformation = () => {
     );
     localStorage.setItem('users', JSON.stringify(updatedUsers));
 
-    // Update logged user
     const updatedLoggedUser = { ...loggedUser, ...formData };
     localStorage.setItem('loggedUser', JSON.stringify(updatedLoggedUser));
     setLoggedUser(updatedLoggedUser);
 
-    // Update provider if exists
     const providers = JSON.parse(localStorage.getItem('providers')) || [];
     const loggedProvider = JSON.parse(localStorage.getItem('loggedProvider'));
     
@@ -110,31 +104,26 @@ const PersonalInformation = () => {
   const handleChangePassword = (e) => {
     e.preventDefault();
 
-    // Validate password fields
     if (!passwordData.currentPassword || !passwordData.newPassword || !passwordData.confirmPassword) {
       setMessage({ type: 'error', text: 'Please fill in all password fields' });
       return;
     }
 
-    // Check if current password matches
     if (passwordData.currentPassword !== loggedUser.password) {
       setMessage({ type: 'error', text: 'Current password is incorrect' });
       return;
     }
 
-    // Check if new password matches confirm password
     if (passwordData.newPassword !== passwordData.confirmPassword) {
       setMessage({ type: 'error', text: 'New passwords do not match' });
       return;
     }
 
-    // Check password strength
     if (passwordData.newPassword.length < 6) {
       setMessage({ type: 'error', text: 'Password must be at least 6 characters long' });
       return;
     }
 
-    // Update password in users array
     const users = JSON.parse(localStorage.getItem('users')) || [];
     const updatedUsers = users.map(user =>
       user.userId === loggedUser.userId
@@ -143,12 +132,10 @@ const PersonalInformation = () => {
     );
     localStorage.setItem('users', JSON.stringify(updatedUsers));
 
-    // Update logged user
     const updatedLoggedUser = { ...loggedUser, password: passwordData.newPassword };
     localStorage.setItem('loggedUser', JSON.stringify(updatedLoggedUser));
     setLoggedUser(updatedLoggedUser);
 
-    // Clear password fields
     setPasswordData({
       currentPassword: '',
       newPassword: '',
@@ -181,7 +168,6 @@ const PersonalInformation = () => {
             </div>
           )}
 
-          {/* Profile Information Section */}
           <div className="info-section">
             <div className="section-header">
               <User size={24} />
@@ -254,7 +240,6 @@ const PersonalInformation = () => {
             </form>
           </div>
 
-          {/* Password Change Section */}
           <div className="info-section">
             <div className="section-header">
               <Lock size={24} />
